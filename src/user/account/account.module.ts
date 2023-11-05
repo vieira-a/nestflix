@@ -9,5 +9,6 @@ import { BcryptAdapter } from '../utils/bcrypt-adapter';
   imports: [TypeOrmModule.forFeature([RegisterEntity])],
   controllers: [AccountController],
   providers: [AccountService, BcryptAdapter],
+  exports: [AccountService],
 })
-export class RegisterModule {}
+export class AccountModule {}

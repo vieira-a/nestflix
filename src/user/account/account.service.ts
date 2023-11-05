@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RegisterEntity } from './entities/register.entity';
@@ -39,7 +43,7 @@ export class AccountService {
     );
 
     if (!userEmailAlreadyExists) {
-      throw new BadRequestException('Usuário não encontrado');
+      throw new UnauthorizedException('Usuário não encontrado');
     }
     return await this.accountRepository.findOneBy({ email: email });
   }

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RegisterModule } from './user/account/account.module';
+import { AccountModule } from './user/account/account.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from '../src/config/postgre.service';
@@ -21,7 +21,7 @@ import { jwtConstants } from './user/utils/constants';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '1d' },
     }),
-    RegisterModule,
+    AccountModule,
     SignInModule,
   ],
 })
