@@ -16,7 +16,7 @@ export class RegisterEntity {
   @Column({ name: 'email', length: 30 })
   email: string;
 
-  @Column({ name: 'password', length: 16 })
+  @Column({ name: 'password', length: 255 })
   password: string;
 
   @Column({ name: 'role' })

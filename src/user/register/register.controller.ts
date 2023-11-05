@@ -43,7 +43,7 @@ export class RegisterController {
         console.log(error);
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Failed to create user account' });
+          .json({ message: 'Houve uma falha ao criar conta de usuário' });
       }
     }
   }
