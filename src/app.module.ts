@@ -3,6 +3,7 @@ import { RegisterModule } from './user/register/register.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from '../src/config/postgre.service';
+import { SignInModule } from './user/signin/signin.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PostgresConfigService } from '../src/config/postgre.service';
       inject: [PostgresConfigService],
     }),
     RegisterModule,
+    SignInModule,
   ],
 })
 export class AppModule {}
