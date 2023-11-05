@@ -6,9 +6,9 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { SignInDto } from './dto/signin.dto';
 import { SignInService } from './signin.service';
-import { Response } from 'express';
 
 @Controller('/signin')
 export class SignInController {
