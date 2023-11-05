@@ -25,7 +25,7 @@ export class RegisterController {
       newUserAccount.name = registerUserData.name;
       newUserAccount.email = registerUserData.email;
       newUserAccount.password = registerUserData.password;
-      newUserAccount.role = 'user';
+      newUserAccount.role = registerUserData.role;
       newUserAccount.createdAt = new Date();
       newUserAccount.updateAt = new Date();
 

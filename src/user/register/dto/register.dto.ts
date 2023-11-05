@@ -30,4 +30,7 @@ export class RegisterDto {
     { message: 'Confirmação de senha deve obedecer critérios de complexidade' },
   )
   passwordConfirmation: string;
+
+  @IsNotEmpty({ message: 'Perfil do usuário deve ser informado' })
+  role: string;
 }
