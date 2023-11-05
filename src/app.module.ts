@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { RegisterModule } from './user/register/register.module';
+import { RegisterModule } from './user/account/account.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigService } from '../src/config/postgre.service';
 import { SignInModule } from './user/signin/signin.module';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './user/utils/constants';
 
 @Module({
   imports: [
@@ -13,6 +15,11 @@ import { SignInModule } from './user/signin/signin.module';
     TypeOrmModule.forRootAsync({
       useClass: PostgresConfigService,
       inject: [PostgresConfigService],
+    }),
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '1d' },
     }),
     RegisterModule,
     SignInModule,

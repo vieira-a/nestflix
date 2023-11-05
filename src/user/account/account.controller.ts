@@ -8,12 +8,12 @@ import {
 } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { Response } from 'express';
-import { RegisterService } from './register.service';
+import { AccountService } from './account.service';
 import { RegisterEntity } from './entities/register.entity';
 
 @Controller('/register')
-export class RegisterController {
-  constructor(private readonly registerService: RegisterService) {}
+export class AccountController {
+  constructor(private readonly accountService: AccountService) {}
 
   @Post()
   async registerUser(
@@ -34,7 +34,7 @@ export class RegisterController {
       newUserAccount.createdAt = new Date();
       newUserAccount.updateAt = new Date();
 
-      await this.registerService.dbRegisterUser(newUserAccount);
+      await this.accountService.dbRegisterUser(newUserAccount);
 
       return res.status(HttpStatus.OK).json({
         message: 'Conta de usuário criada com sucesso',

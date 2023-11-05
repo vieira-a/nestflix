@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { RegisterEntity } from '../register/entities/register.entity';
+import { RegisterEntity } from '../account/entities/register.entity';
 
 export async function dbCheckUserAccount(
   registerRepository: Repository<RegisterEntity>,

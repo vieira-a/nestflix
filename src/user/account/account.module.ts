@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { RegisterController } from './register.controller';
-import { RegisterService } from './register.service';
+import { AccountController } from './account.controller';
+import { AccountService } from './account.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegisterEntity } from './entities/register.entity';
 import { BcryptAdapter } from '../utils/bcrypt-adapter';
 
 @Module({
   imports: [TypeOrmModule.forFeature([RegisterEntity])],
-  controllers: [RegisterController],
-  providers: [RegisterService, BcryptAdapter],
+  controllers: [AccountController],
+  providers: [AccountService, BcryptAdapter],
 })
 export class RegisterModule {}

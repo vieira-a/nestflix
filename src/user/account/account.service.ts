@@ -6,16 +6,16 @@ import { BcryptAdapter } from '../utils/bcrypt-adapter';
 import { dbCheckUserAccount } from '../utils/check-user-account';
 
 @Injectable()
-export class RegisterService {
+export class AccountService {
   constructor(
     @InjectRepository(RegisterEntity)
-    private readonly registerRepository: Repository<RegisterEntity>,
+    private readonly accountRepository: Repository<RegisterEntity>,
     private readonly bcryptAdapter: BcryptAdapter,
   ) {}
 
   async dbRegisterUser(registerUserData: RegisterEntity) {
     const userEmailAlreadyExists = await dbCheckUserAccount(
-      this.registerRepository,
+      this.accountRepository,
       'email',
       registerUserData.email,
     );
@@ -28,6 +28,19 @@ export class RegisterService {
       registerUserData.password,
     );
     registerUserData.password = hashedPassword;
-    await this.registerRepository.save(registerUserData);
+    await this.accountRepository.save(registerUserData);
+  }
+
+  async dbLoadUserAccountByEmail(email: string) {
+    const userEmailAlreadyExists = await dbCheckUserAccount(
+      this.accountRepository,
+      'email',
+      email,
+    );
+
+    if (!userEmailAlreadyExists) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+    return await this.accountRepository.findOneBy({ email: email });
   }
 }
