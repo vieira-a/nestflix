@@ -10,4 +10,11 @@ export class BcryptAdapter {
     const hashedPassword = await bcrypt.hash(plainText, this.salt);
     return hashedPassword;
   }
+
+  async checkPassword(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return bcrypt.compare(plainTextPassword, hashedPassword);
+  }
 }
