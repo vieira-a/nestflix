@@ -1,4 +1,11 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { SignInDto } from './dto/signin.dto';
 import { SignInService } from './signin.service';
 import { Response } from 'express';
@@ -16,7 +23,17 @@ export class SignInController {
         token: token,
       });
     } catch (error) {
-      console.log(error);
+      if (error instanceof HttpException) {
+        console.log(error);
+        return res
+          .status(error.getStatus())
+          .json({ error: error.getResponse() });
+      } else {
+        console.log(error);
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'Authentication failure', error });
+      }
     }
   }
 }
