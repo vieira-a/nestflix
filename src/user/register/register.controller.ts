@@ -21,6 +21,11 @@ export class RegisterController {
     @Res() res: Response,
   ) {
     try {
+      if (registerUserData.password !== registerUserData.passwordConfirmation) {
+        return res.status(HttpStatus.BAD_REQUEST).json({
+          message: 'As senhas não conferem',
+        });
+      }
       const newUserAccount = new RegisterEntity();
       newUserAccount.name = registerUserData.name;
       newUserAccount.email = registerUserData.email;
