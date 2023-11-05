@@ -22,9 +22,18 @@ export class RegisterEntity {
   @Column({ name: 'role' })
   role: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
   createdAt: Date;
 
-  @CreateDateColumn({ name: 'updated_at' })
+  @CreateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
   updateAt: Date;
 }
