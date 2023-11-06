@@ -25,7 +25,7 @@ export class MovieController {
 
       await this.movieService.dbRegisterMovie(newMovie);
 
-      return res.status(HttpStatus.OK).json({
+      return res.status(HttpStatus.CREATED).json({
         message: 'Filme cadastrado com sucesso',
       });
     } catch (error) {
