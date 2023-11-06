@@ -20,7 +20,9 @@ import { RegisterMovieDto } from './dto/register-movie.dto';
 import { MovieService } from './movie.service';
 import { AuthGuard } from 'src/common/auth-guard';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Movies')
 @Controller('/movies')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}

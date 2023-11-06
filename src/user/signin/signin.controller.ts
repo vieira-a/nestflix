@@ -9,7 +9,9 @@ import {
 import { Response } from 'express';
 import { SignInDto } from './dto/signin.dto';
 import { SignInService } from './signin.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User signin')
 @Controller('/signin')
 export class SignInController {
   constructor(private readonly signInService: SignInService) {}

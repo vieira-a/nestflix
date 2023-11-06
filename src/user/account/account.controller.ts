@@ -10,7 +10,9 @@ import { RegisterDto } from './dto/register.dto';
 import { Response } from 'express';
 import { AccountService } from './account.service';
 import { RegisterEntity } from './entities/register.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User signup')
 @Controller('/register')
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
