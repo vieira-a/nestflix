@@ -17,6 +17,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Nestflix')
+    .addBearerAuth()
     .setDescription('A movie catalog database built with NestJS')
     .setVersion('1.0')
     .build();
