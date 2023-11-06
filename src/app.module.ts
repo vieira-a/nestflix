@@ -6,6 +6,7 @@ import { PostgresConfigService } from '../src/config/postgre.service';
 import { AccountModule } from './user/account/account.module';
 import { SignInModule } from './user/signin/signin.module';
 import { jwtConstants } from './user/utils';
+import { MovieModule } from './movie/movie.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { jwtConstants } from './user/utils';
     }),
     AccountModule,
     SignInModule,
+    MovieModule,
   ],
 })
 export class AppModule {}
