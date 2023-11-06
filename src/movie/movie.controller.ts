@@ -47,6 +47,7 @@ export class MovieController {
     }
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   async loadMovies(@Res() res: Response) {
     try {
