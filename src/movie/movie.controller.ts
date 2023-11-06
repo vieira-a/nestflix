@@ -5,16 +5,19 @@ import {
   HttpStatus,
   Post,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { MovieEntity } from './entities/movie.entity';
 import { MovieDto } from './dto/movie.dto';
 import { MovieService } from './movie.service';
+import { AuthGuard } from 'src/common/auth-guard';
 
 @Controller('/movies')
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
   async registerMovie(@Body() movieData: MovieDto, @Res() res: Response) {
     try {

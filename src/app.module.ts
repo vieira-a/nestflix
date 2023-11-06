@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import { PostgresConfigService } from '../src/config/postgre.service';
+import { PostgresConfigService } from './config/postgre.service';
 import { AccountModule } from './user/account/account.module';
 import { SignInModule } from './user/signin/signin.module';
 import { jwtConstants } from './user/utils';
