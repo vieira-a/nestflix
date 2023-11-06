@@ -13,4 +13,8 @@ export class MovieService {
   async dbRegisterMovie(movieData: MovieEntity) {
     await this.movieRepository.save(movieData);
   }
+
+  async dbLoadMovies() {
+    return await this.movieRepository.find();
+  }
 }

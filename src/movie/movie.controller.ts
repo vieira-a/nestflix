@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
   HttpStatus,
   Post,
@@ -43,6 +44,18 @@ export class MovieController {
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: 'Houve uma falha ao cadastrar o filme' });
       }
+    }
+  }
+
+  @Get()
+  async loadMovies(@Res() res: Response) {
+    try {
+      const movies = await this.movieService.dbLoadMovies();
+      return res.status(HttpStatus.OK).json({
+        data: movies,
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
 }
