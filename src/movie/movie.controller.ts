@@ -5,7 +5,9 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
   Res,
@@ -16,6 +18,7 @@ import { MovieEntity } from './entities/movie.entity';
 import { RegisterMovieDto } from './dto/register-movie.dto';
 import { MovieService } from './movie.service';
 import { AuthGuard } from 'src/common/auth-guard';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Controller('/movies')
 export class MovieController {
@@ -80,5 +83,21 @@ export class MovieController {
           .json({ message: 'Houve uma falha ao carregar filmes' });
       }
     }
+  }
+
+  @Patch('/:id')
+  async updateMovie(
+    @Param('id') id: string,
+    @Body() updateMovieData: UpdateMovieDto,
+    @Res() res: Response,
+  ) {
+    const movieUpdated = await this.movieService.dbUpdateMovie(
+      id,
+      updateMovieData,
+    );
+    return res.status(HttpStatus.OK).json({
+      message: 'Filme atualizado com sucesso',
+      data: movieUpdated,
+    });
   }
 }

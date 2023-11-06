@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MovieEntity } from './entities/movie.entity';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Injectable()
 export class MovieService {
@@ -27,5 +28,9 @@ export class MovieService {
 
     const { entities } = await queryBuilder.getRawAndEntities();
     return entities;
+  }
+
+  async dbUpdateMovie(id: string, updateMovieData: UpdateMovieDto) {
+    return await this.movieRepository.update(id, updateMovieData);
   }
 }
