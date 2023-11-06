@@ -27,9 +27,20 @@ services:
     networks:
       - postgres
 
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - postgres
+    volumes:
+      - redis:/data
+
 networks:
   postgres:
     driver: bridge
 
 volumes:
     postgres:
+    redis:
+      driver: local
