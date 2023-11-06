@@ -85,6 +85,7 @@ export class MovieController {
     }
   }
 
+  @UseGuards(AuthGuard)
   @Patch('/:id')
   async updateMovie(
     @Param('id') id: string,
