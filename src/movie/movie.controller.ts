@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { MovieEntity } from './entities/movie.entity';
-import { MovieDto } from './dto/movie.dto';
+import { RegisterMovieDto } from './dto/register-movie.dto';
 import { MovieService } from './movie.service';
 import { AuthGuard } from 'src/common/auth-guard';
 
@@ -23,7 +23,10 @@ export class MovieController {
 
   @UseGuards(AuthGuard)
   @Post()
-  async registerMovie(@Body() movieData: MovieDto, @Res() res: Response) {
+  async registerMovie(
+    @Body() movieData: RegisterMovieDto,
+    @Res() res: Response,
+  ) {
     try {
       const newMovie = new MovieEntity();
       newMovie.title = movieData.title;

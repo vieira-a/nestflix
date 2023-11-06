@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class MovieDto {
+export class RegisterMovieDto {
   @IsNotEmpty({ message: 'O título do filme deve ser informado' })
   @IsString({ message: 'O título do filme deve possuir caracteres válidos' })
   title: string;
