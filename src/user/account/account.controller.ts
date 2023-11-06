@@ -36,7 +36,7 @@ export class AccountController {
 
       await this.accountService.dbRegisterUser(newUserAccount);
 
-      return res.status(HttpStatus.OK).json({
+      return res.status(HttpStatus.CREATED).json({
         message: 'Conta de usuário criada com sucesso',
       });
     } catch (error) {
