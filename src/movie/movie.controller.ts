@@ -113,6 +113,7 @@ export class MovieController {
     }
   }
 
+  @UseGuards(AuthGuard)
   @Delete('/:id')
   async deleteMovie(@Param('id') id: string, @Res() res: Response) {
     try {
