@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   DefaultValuePipe,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -108,6 +109,28 @@ export class MovieController {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: 'Houve uma falha ao atualizar filme' });
+      }
+    }
+  }
+
+  @Delete('/:id')
+  async deleteMovie(@Param('id') id: string, @Res() res: Response) {
+    try {
+      await this.movieService.dbDeleteMovie(id);
+      return res.status(HttpStatus.OK).json({
+        message: 'Filme excluído com sucesso',
+      });
+    } catch (error) {
+      console.log(error);
+      if (error instanceof HttpException) {
+        return res
+          .status(error.getStatus())
+          .json({ error: error.getResponse() });
+      } else {
+        console.log(error);
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'Houve uma falha ao excluir filme' });
       }
     }
   }

@@ -49,4 +49,12 @@ export class MovieService {
     }
     return await this.movieRepository.update(id, updateMovieData);
   }
+
+  async dbDeleteMovie(id: string) {
+    const movieToDelete = await this.dbLoadMovieById(id);
+    if (!movieToDelete) {
+      throw new NotFoundException('Filme não encontrado');
+    }
+    return await this.movieRepository.delete(id);
+  }
 }
