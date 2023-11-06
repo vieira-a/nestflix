@@ -1,8 +1,15 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
-import { MovieDto } from './dto/movie.dto';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { Response } from 'express';
-import { MovieService } from './movie.service';
 import { MovieEntity } from './entities/movie.entity';
+import { MovieDto } from './dto/movie.dto';
+import { MovieService } from './movie.service';
 
 @Controller('/movies')
 export class MovieController {
@@ -23,6 +30,16 @@ export class MovieController {
       });
     } catch (error) {
       console.log(error);
+      if (error instanceof HttpException) {
+        return res
+          .status(error.getStatus())
+          .json({ error: error.getResponse() });
+      } else {
+        console.log(error);
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'Houve uma falha ao cadastrar o filme' });
+      }
     }
   }
 }
