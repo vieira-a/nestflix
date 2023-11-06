@@ -1,8 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MovieEntity } from './entities/movie.entity';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class MovieService {
@@ -10,6 +15,19 @@ export class MovieService {
     @InjectRepository(MovieEntity)
     private readonly movieRepository: Repository<MovieEntity>,
   ) {}
+
+  async dbLoadMovieById(id: string) {
+    if (!isUUID(id)) {
+      throw new BadRequestException('Código do filme inválido');
+    }
+
+    const movieData = await this.movieRepository.findOneBy({ id: id });
+
+    if (!movieData) {
+      throw new NotFoundException('Filme não encontrado');
+    }
+    return movieData;
+  }
 
   async dbRegisterMovie(movieData: MovieEntity) {
     await this.movieRepository.save(movieData);

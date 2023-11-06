@@ -91,13 +91,25 @@ export class MovieController {
     @Body() updateMovieData: UpdateMovieDto,
     @Res() res: Response,
   ) {
-    const movieUpdated = await this.movieService.dbUpdateMovie(
-      id,
-      updateMovieData,
-    );
-    return res.status(HttpStatus.OK).json({
-      message: 'Filme atualizado com sucesso',
-      data: movieUpdated,
-    });
+    try {
+      await this.movieService.dbLoadMovieById(id);
+
+      await this.movieService.dbUpdateMovie(id, updateMovieData);
+      return res.status(HttpStatus.OK).json({
+        message: 'Filme atualizado com sucesso',
+      });
+    } catch (error) {
+      console.log(error);
+      if (error instanceof HttpException) {
+        return res
+          .status(error.getStatus())
+          .json({ error: error.getResponse() });
+      } else {
+        console.log(error);
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'Houve uma falha ao atualizar filme' });
+      }
+    }
   }
 }
