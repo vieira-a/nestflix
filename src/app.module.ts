@@ -24,6 +24,7 @@ import { RedisModule } from './common/redis/redis.module';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '1d' },
     }),
+    RedisModule,
     AccountModule,
     SignInModule,
     MovieModule,

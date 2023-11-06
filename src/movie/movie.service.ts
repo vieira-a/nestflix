@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -9,8 +8,7 @@ import { Repository } from 'typeorm';
 import { MovieEntity } from './entities/movie.entity';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { isUUID } from 'class-validator';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
+import { RedisService } from '../common/redis/redis.service';
 
 @Injectable()
 export class MovieService {
@@ -19,7 +17,7 @@ export class MovieService {
   constructor(
     @InjectRepository(MovieEntity)
     private readonly movieRepository: Repository<MovieEntity>,
-    @Inject(CACHE_MANAGER) private cacheService: Cache,
+    private readonly redisService: RedisService,
   ) {}
 
   async dbLoadMovieById(movieId: string) {
@@ -31,7 +29,8 @@ export class MovieService {
 
   async dbRegisterMovie(movieData: MovieEntity) {
     const newMovie = await this.movieRepository.save(movieData);
-    await this.cacheService.set(newMovie.id, newMovie);
+    const redisClient = this.redisService.getClient();
+    await redisClient.set(newMovie.id, JSON.stringify(newMovie));
     this.cachedKeys.push(newMovie.id);
     return newMovie;
   }
@@ -43,7 +42,8 @@ export class MovieService {
     };
 
     const allMovies = this.cachedKeys.map(async (key: string) => {
-      const cachedMovie = await this.cacheService.get(key);
+      const redisClient = this.redisService.getClient();
+      const cachedMovie = await redisClient.get(key);
       return cachedMovie;
     });
 
