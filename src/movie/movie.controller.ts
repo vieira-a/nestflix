@@ -52,10 +52,20 @@ export class MovieController {
     try {
       const movies = await this.movieService.dbLoadMovies();
       return res.status(HttpStatus.OK).json({
-        data: movies,
+        result: movies,
       });
     } catch (error) {
       console.log(error);
+      if (error instanceof HttpException) {
+        return res
+          .status(error.getStatus())
+          .json({ error: error.getResponse() });
+      } else {
+        console.log(error);
+        return res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'Houve uma falha ao carregar filmes' });
+      }
     }
   }
 }
