@@ -93,8 +93,6 @@ export class MovieController {
     @Res() res: Response,
   ) {
     try {
-      await this.movieService.dbLoadMovieById(id);
-
       await this.movieService.dbUpdateMovie(id, updateMovieData);
       return res.status(HttpStatus.OK).json({
         message: 'Filme atualizado com sucesso',

@@ -16,17 +16,11 @@ export class MovieService {
     private readonly movieRepository: Repository<MovieEntity>,
   ) {}
 
-  async dbLoadMovieById(id: string) {
-    if (!isUUID(id)) {
+  async dbLoadMovieById(movieId: string) {
+    if (!isUUID(movieId)) {
       throw new BadRequestException('Código do filme inválido');
     }
-
-    const movieData = await this.movieRepository.findOneBy({ id: id });
-
-    if (!movieData) {
-      throw new NotFoundException('Filme não encontrado');
-    }
-    return movieData;
+    return await this.movieRepository.findOneBy({ id: movieId });
   }
 
   async dbRegisterMovie(movieData: MovieEntity) {
@@ -49,6 +43,10 @@ export class MovieService {
   }
 
   async dbUpdateMovie(id: string, updateMovieData: UpdateMovieDto) {
+    const movieToUpdate = await this.dbLoadMovieById(id);
+    if (!movieToUpdate) {
+      throw new NotFoundException('Filme não encontrado');
+    }
     return await this.movieRepository.update(id, updateMovieData);
   }
 }
