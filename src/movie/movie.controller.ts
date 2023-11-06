@@ -1,10 +1,13 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   HttpException,
   HttpStatus,
+  ParseIntPipe,
   Post,
+  Query,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -49,9 +52,13 @@ export class MovieController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async loadMovies(@Res() res: Response) {
+  async loadMovies(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Res() res: Response,
+  ) {
     try {
-      const movies = await this.movieService.dbLoadMovies();
+      const movies = await this.movieService.dbLoadMovies(page, limit);
       return res.status(HttpStatus.OK).json({
         result: movies,
       });

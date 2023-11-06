@@ -14,7 +14,18 @@ export class MovieService {
     await this.movieRepository.save(movieData);
   }
 
-  async dbLoadMovies() {
-    return await this.movieRepository.find();
+  async dbLoadMovies(page: number, limit: number) {
+    const filter = {
+      page,
+      limit,
+    };
+
+    const queryBuilder = this.movieRepository.createQueryBuilder('movies');
+    queryBuilder
+      .skip((filter.page - 1) * (filter.limit + 1))
+      .take(filter.limit);
+
+    const { entities } = await queryBuilder.getRawAndEntities();
+    return entities;
   }
 }
