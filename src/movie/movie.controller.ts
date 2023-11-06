@@ -67,9 +67,8 @@ export class MovieController {
     try {
       const result = await this.movieService.dbLoadMovies(page, limit);
       return res.status(HttpStatus.OK).json({
-        page,
         result,
-        total: result.length,
+        // total: result.length,
       });
     } catch (error) {
       console.log(error);

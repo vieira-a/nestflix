@@ -7,12 +7,14 @@ import { AccountModule } from './user/account/account.module';
 import { SignInModule } from './user/signin/signin.module';
 import { jwtConstants } from './user/utils';
 import { MovieModule } from './movie/movie.module';
+import { RedisModule } from './common/redis/redis.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    RedisModule,
     TypeOrmModule.forRootAsync({
       useClass: PostgresConfigService,
       inject: [PostgresConfigService],
