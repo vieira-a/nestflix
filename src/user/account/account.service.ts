@@ -6,20 +6,19 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RegisterEntity } from './entities/register.entity';
-import { BcryptAdapter, dbCheckUserAccount } from '../utils';
+//import { dbCheckUserAccount } from '../utils';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AccountService {
+  private readonly salt: number = 12;
   constructor(
     @InjectRepository(RegisterEntity)
     private readonly accountRepository: Repository<RegisterEntity>,
-    private readonly bcryptAdapter: BcryptAdapter,
   ) {}
 
   async dbRegisterUser(registerUserData: RegisterEntity) {
-    const userEmailAlreadyExists = await dbCheckUserAccount(
-      this.accountRepository,
-      'email',
+    const userEmailAlreadyExists = await this.dbLoadUserAccountByEmail(
       registerUserData.email,
     );
 
@@ -27,23 +26,27 @@ export class AccountService {
       throw new BadRequestException('E-mail já cadastrado');
     }
 
-    const hashedPassword = await this.bcryptAdapter.encrypt(
+    const hashedPassword = await bcrypt.hash(
       registerUserData.password,
+      this.salt,
     );
-    registerUserData.password = hashedPassword;
-    await this.accountRepository.save(registerUserData);
+
+    await this.accountRepository.save({
+      ...registerUserData,
+      password: hashedPassword,
+    });
   }
 
-  async dbLoadUserAccountByEmail(email: string) {
-    const userEmailAlreadyExists = await dbCheckUserAccount(
-      this.accountRepository,
-      'email',
-      email,
-    );
+  async dbLoadUserAccountByEmail(userEmail: string) {
+    const userAccount = this.accountRepository.findOne({
+      where: {
+        email: userEmail,
+      },
+    });
 
-    if (!userEmailAlreadyExists) {
+    if (!userAccount) {
       throw new NotFoundException('Usuário não encontrado');
     }
-    return await this.accountRepository.findOneBy({ email: email });
+    return userAccount;
   }
 }

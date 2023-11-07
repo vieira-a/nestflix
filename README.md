@@ -10,6 +10,10 @@
 
 - [Anderson Vieira](https://linkedin.com/in/vieira-a)
 
+Desenvolvedor web com foco em backend. 
+
+Possuo 1 ano de experiêcia com TypeScript, NodeJS, TypeORM, PostgreSQL, Docker e Swagger. Cerca de 3 meses de experiência com NestJS e Redis.
+
 ## Resultado
 
 - [Deploy](https://stormy-pig-sandals.cyclic.app/api/docs)
