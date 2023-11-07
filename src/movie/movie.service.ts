@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { MovieEntity } from './entities/movie.entity';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { isUUID } from 'class-validator';
-import { RedisService } from '../shared/redis/redis.service';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class MovieService {
