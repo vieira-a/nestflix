@@ -17,7 +17,7 @@ import { Response } from 'express';
 import { MovieEntity } from './entities/movie.entity';
 import { RegisterMovieDto } from './dto/register-movie.dto';
 import { MovieService } from './movie.service';
-import { AuthGuard } from '../shared/auth-guard';
+import { AuthGuard } from '../shared/guards/auth-guard';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { serverError } from '../shared/exceptions/server-error';
