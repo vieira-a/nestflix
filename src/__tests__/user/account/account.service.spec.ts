@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { BadRequestException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AccountService } from '../../../user/account/account.service';
@@ -52,6 +53,30 @@ describe('AccountService', () => {
         ...RegisterEntityMock,
         password: 'hashedPassword',
       });
+    });
+
+    it('should throw BadRequestException if email already exists', async () => {
+      jest
+        .spyOn(accountService, 'dbLoadUserAccountByEmail')
+        .mockResolvedValue(RegisterEntityMock);
+
+      await expect(
+        accountService.dbRegisterUser(RegisterEntityMock),
+      ).rejects.toThrow(BadRequestException);
+    });
+  });
+
+  describe('dbLoadUserAccountByEmail', () => {
+    it('should load a user account by email', async () => {
+      const email = 'test@example.com';
+
+      jest
+        .spyOn(accountRepository, 'findOne')
+        .mockResolvedValue(RegisterEntityMock);
+
+      const result = await accountService.dbLoadUserAccountByEmail(email);
+
+      expect(result).toEqual(RegisterEntityMock);
     });
   });
 });
