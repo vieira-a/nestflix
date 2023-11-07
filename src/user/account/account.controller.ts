@@ -1,16 +1,10 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  HttpStatus,
-  Post,
-  Res,
-} from '@nestjs/common';
-import { RegisterDto } from './dto/register.dto';
+import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { AccountService } from './account.service';
-import { RegisterEntity } from './entities/register.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { RegisterEntity } from './entities/register.entity';
+import { RegisterDto } from './dto/register.dto';
+import { AccountService } from './account.service';
+import { serverError } from '../../shared/exceptions/server-error';
 
 @ApiTags('User signup')
 @Controller('/register')
@@ -42,16 +36,11 @@ export class AccountController {
         message: 'Conta de usuário criada com sucesso',
       });
     } catch (error) {
-      if (error instanceof HttpException) {
-        return res
-          .status(error.getStatus())
-          .json({ error: error.getResponse() });
-      } else {
-        console.log(error);
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Houve uma falha ao criar conta de usuário' });
-      }
+      return serverError(
+        error,
+        res,
+        'Houve uma falha ao criar conta de usuário',
+      );
     }
   }
 }

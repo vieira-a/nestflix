@@ -4,7 +4,6 @@ import {
   DefaultValuePipe,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
   Param,
   ParseIntPipe,
@@ -18,9 +17,10 @@ import { Response } from 'express';
 import { MovieEntity } from './entities/movie.entity';
 import { RegisterMovieDto } from './dto/register-movie.dto';
 import { MovieService } from './movie.service';
-import { AuthGuard } from 'src/common/auth-guard';
+import { AuthGuard } from '../shared/auth-guard';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { serverError } from '../shared/exceptions/server-error';
 
 @ApiTags('Movies')
 @Controller('/movies')
@@ -45,17 +45,7 @@ export class MovieController {
         message: 'Filme cadastrado com sucesso',
       });
     } catch (error) {
-      console.log(error);
-      if (error instanceof HttpException) {
-        return res
-          .status(error.getStatus())
-          .json({ error: error.getResponse() });
-      } else {
-        console.log(error);
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Houve uma falha ao cadastrar o filme' });
-      }
+      return serverError(error, res, 'Houve uma falha ao cadastrar filme');
     }
   }
 
@@ -68,22 +58,9 @@ export class MovieController {
   ) {
     try {
       const result = await this.movieService.dbLoadMovies(page, limit);
-      return res.status(HttpStatus.OK).json({
-        result,
-        // total: result.length,
-      });
+      return res.status(HttpStatus.OK).json({ result });
     } catch (error) {
-      console.log(error);
-      if (error instanceof HttpException) {
-        return res
-          .status(error.getStatus())
-          .json({ error: error.getResponse() });
-      } else {
-        console.log(error);
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Houve uma falha ao carregar filmes' });
-      }
+      return serverError(error, res, 'Houve uma falha ao carregar filmes');
     }
   }
 
@@ -100,17 +77,7 @@ export class MovieController {
         message: 'Filme atualizado com sucesso',
       });
     } catch (error) {
-      console.log(error);
-      if (error instanceof HttpException) {
-        return res
-          .status(error.getStatus())
-          .json({ error: error.getResponse() });
-      } else {
-        console.log(error);
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Houve uma falha ao atualizar filme' });
-      }
+      return serverError(error, res, 'Houve uma falha ao atualizar filme');
     }
   }
 
@@ -123,17 +90,7 @@ export class MovieController {
         message: 'Filme excluído com sucesso',
       });
     } catch (error) {
-      console.log(error);
-      if (error instanceof HttpException) {
-        return res
-          .status(error.getStatus())
-          .json({ error: error.getResponse() });
-      } else {
-        console.log(error);
-        return res
-          .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Houve uma falha ao excluir filme' });
-      }
+      return serverError(error, res, 'Houve uma falha ao excluir filme');
     }
   }
 }
