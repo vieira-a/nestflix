@@ -152,3 +152,37 @@ src
         └── index.ts
 ```
 
+## Testando aplicação localmente
+
+Antes de executar a aplicação localmente:
+
+- Certifique-se de que o [Docker](https://www.docker.com/) esteja instalado;
+- Certifique-se de que o [NPM](https://www.npmjs.com/) esteja instalado;
+- Certifique-se de que o [NodeJS](https://nodejs.org/en/download) esteja instalado;
+
+1. Clone o repositório
+
+```
+git clone https://github.com/vieira-a/nestflix.git
+```
+
+2. Crie um arquivo `.env` na raiz do projeto utilizando o modelo `.env.example`
+
+3. Crie e inicialize os containers necessários de acordo com o `docker-compose.yml`
+
+```
+docker-compose up -d
+```
+
+4. Inicialize a aplicação:
+
+```
+npm run start  
+```
+
+5. Acesso às rotas 
+
+- API: http://localhost:3000/api
+
+- Swagger: http://localhost:3000/api/docs
+
