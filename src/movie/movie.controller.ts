@@ -32,13 +32,6 @@ export class MovieController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Filme cadastrado com sucesso',
-    schema: {
-      properties: {
-        title: { type: 'string' },
-        genre: { type: 'string' },
-        releaseDate: { type: 'string', format: 'date' },
-      },
-    },
   })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
