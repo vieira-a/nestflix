@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RegisterEntity } from './entities/register.entity';
+//import { dbCheckUserAccount } from '../utils';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
