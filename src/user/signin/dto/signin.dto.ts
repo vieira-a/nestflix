@@ -11,8 +11,7 @@ export class SignInDto {
 
   @ApiProperty({
     description: 'A strong password',
-    example:
-      '8 digits or more, letters (uppercase and lowercase), numbers and special characters',
+    example: 'P@ssword10',
   })
   @IsNotEmpty({ message: 'Senha precisa ser informada' })
   password: string;

@@ -28,8 +28,7 @@ export class RegisterDto {
 
   @ApiProperty({
     description: 'A strong password',
-    example:
-      '8 digits or more, letters (uppercase and lowercase), numbers and special characters',
+    example: 'P@ssword10',
   })
   @IsNotEmpty({ message: 'Senha precisa ser informada' })
   @IsStrongPassword(
@@ -40,7 +39,7 @@ export class RegisterDto {
 
   @ApiProperty({
     description: 'A strong password',
-    example: 'Must be the same password as before',
+    example: 'P@ssword10',
   })
   @IsNotEmpty({ message: 'Confirmação de senha precisa ser informada' })
   @IsStrongPassword(
@@ -51,7 +50,7 @@ export class RegisterDto {
 
   @ApiProperty({
     description: 'User company role',
-    example: 'user | admin',
+    example: 'user',
   })
   @IsNotEmpty({ message: 'Perfil do usuário deve ser informado' })
   role: string;

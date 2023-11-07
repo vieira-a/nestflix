@@ -3,7 +3,7 @@ import { MovieController } from './movie.controller';
 import { MovieService } from './movie.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MovieEntity } from './entities/movie.entity';
-import { RedisService } from '../common/redis/redis.service';
+import { RedisService } from '../redis/redis.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MovieEntity])],
