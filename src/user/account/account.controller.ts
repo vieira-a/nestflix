@@ -1,6 +1,6 @@
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RegisterEntity } from './entities/register.entity';
 import { RegisterDto } from './dto/register.dto';
 import { AccountService } from './account.service';
@@ -12,6 +12,22 @@ export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Post()
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Conta de usuário criada com sucesso',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'As senhas não conferem',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'E-mail já cadastrado',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Houve uma falha ao criar conta de usuário',
+  })
   async registerUser(
     @Body() registerUserData: RegisterDto,
     @Res() res: Response,
