@@ -6,7 +6,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RegisterEntity } from './entities/register.entity';
-import { dbCheckUserAccount } from '../utils';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -18,9 +17,7 @@ export class AccountService {
   ) {}
 
   async dbRegisterUser(registerUserData: RegisterEntity) {
-    const userEmailAlreadyExists = await dbCheckUserAccount(
-      this.accountRepository,
-      'email',
+    const userEmailAlreadyExists = await this.dbLoadUserAccountByEmail(
       registerUserData.email,
     );
 
@@ -39,16 +36,16 @@ export class AccountService {
     });
   }
 
-  async dbLoadUserAccountByEmail(email: string) {
-    const userEmailAlreadyExists = await dbCheckUserAccount(
-      this.accountRepository,
-      'email',
-      email,
-    );
+  async dbLoadUserAccountByEmail(userEmail: string) {
+    const userAccount = this.accountRepository.findOne({
+      where: {
+        email: userEmail,
+      },
+    });
 
-    if (!userEmailAlreadyExists) {
+    if (!userAccount) {
       throw new NotFoundException('Usuário não encontrado');
     }
-    return await this.accountRepository.findOneBy({ email: email });
+    return userAccount;
   }
 }
