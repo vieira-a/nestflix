@@ -2,13 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from './dto/signin.dto';
 import { AccountService } from '../account/account.service';
-import { BcryptAdapter } from '../utils/bcrypt-adapter';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class SignInService {
   constructor(
     private readonly accountService: AccountService,
-    private readonly bcryptAdapter: BcryptAdapter,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -17,7 +16,7 @@ export class SignInService {
       signInData.email,
     );
 
-    const userPasswordIsValid = await this.bcryptAdapter.checkPassword(
+    const userPasswordIsValid = await bcrypt.compare(
       signInData.password,
       userAccount.password,
     );
