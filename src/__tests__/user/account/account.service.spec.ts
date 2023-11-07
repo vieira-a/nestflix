@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AccountService } from '../../../user/account/account.service';
 import { RegisterEntity } from '../../../user/account/entities/register.entity';
-import { RegisterEntityMock } from '../../../__mocks__/register-entity.mock';
+import { registerEntityMock } from '../../../__mocks__/register-entity.mock';
 import * as bcrypt from 'bcrypt';
 
 describe('AccountService', () => {
@@ -45,12 +45,12 @@ describe('AccountService', () => {
         .mockResolvedValue(Promise.resolve('hashedPassword'));
       jest
         .spyOn(accountRepository, 'save')
-        .mockResolvedValue(RegisterEntityMock);
+        .mockResolvedValue(registerEntityMock);
 
-      await accountService.dbRegisterUser(RegisterEntityMock);
+      await accountService.dbRegisterUser(registerEntityMock);
 
       expect(accountRepository.save).toHaveBeenCalledWith({
-        ...RegisterEntityMock,
+        ...registerEntityMock,
         password: 'hashedPassword',
       });
     });
@@ -58,10 +58,10 @@ describe('AccountService', () => {
     it('should throw BadRequestException if email already exists', async () => {
       jest
         .spyOn(accountService, 'dbLoadUserAccountByEmail')
-        .mockResolvedValue(RegisterEntityMock);
+        .mockResolvedValue(registerEntityMock);
 
       await expect(
-        accountService.dbRegisterUser(RegisterEntityMock),
+        accountService.dbRegisterUser(registerEntityMock),
       ).rejects.toThrow(BadRequestException);
     });
   });
@@ -72,11 +72,11 @@ describe('AccountService', () => {
 
       jest
         .spyOn(accountRepository, 'findOne')
-        .mockResolvedValue(RegisterEntityMock);
+        .mockResolvedValue(registerEntityMock);
 
       const result = await accountService.dbLoadUserAccountByEmail(email);
 
-      expect(result).toEqual(RegisterEntityMock);
+      expect(result).toEqual(registerEntityMock);
     });
   });
 });
